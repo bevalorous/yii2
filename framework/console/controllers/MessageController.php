@@ -12,6 +12,7 @@ use yii\console\Controller;
 use yii\console\Exception;
 use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
+use yii\i18n\GettextPoFile;
 
 /**
  * Extracts messages to be translated from source files.
@@ -80,13 +81,16 @@ class MessageController extends Controller
             throw new Exception("The configuration file does not exist: $configFile");
         }
 
-        $config = array_merge([
-            'translator' => 'Yii::t',
-            'overwrite' => false,
-            'removeUnused' => false,
-            'sort' => false,
-            'format' => 'php',
-        ], require($configFile));
+        $config = array_merge(
+            [
+                'translator' => 'Yii::t',
+                'overwrite' => false,
+                'removeUnused' => false,
+                'sort' => false,
+                'format' => 'php',
+            ],
+            require($configFile)
+        );
 
         if (!isset($config['sourcePath'], $config['messagePath'], $config['languages'])) {
             throw new Exception('The configuration file must specify "sourcePath", "messagePath" and "languages".');
@@ -125,7 +129,15 @@ class MessageController extends Controller
                         mkdir($path, 0755, true);
                     }
                     $msgs = array_values(array_unique($msgs));
-                    $this->generateMessageFile($msgs, $file, $config['overwrite'], $config['removeUnused'], $config['sort'], $config['format']);
+                    $this->generateMessageFile(
+                        $msgs,
+                        $file,
+                        $config['overwrite'],
+                        $config['removeUnused'],
+                        $config['sort'],
+                        $config['format'],
+                        $category
+                    );
                 }
             }
         } elseif ($config['format'] === 'db') {
@@ -200,11 +212,11 @@ class MessageController extends Controller
                 $savedFlag = true;
 
                 $db->createCommand()
-                ->insert($sourceMessageTable, ['category' => $category, 'message' => $m])->execute();
+                   ->insert($sourceMessageTable, ['category' => $category, 'message' => $m])->execute();
                 $lastId = $db->getLastInsertID();
                 foreach ($languages as $language) {
                     $db->createCommand()
-                    ->insert($messageTable, ['id' => $lastId, 'language' => $language])->execute();
+                       ->insert($messageTable, ['id' => $lastId, 'language' => $language])->execute();
                 }
             }
         }
@@ -217,19 +229,19 @@ class MessageController extends Controller
         } else {
             if ($removeUnused) {
                 $db->createCommand()
-                ->delete($sourceMessageTable, ['in', 'id', $obsolete])->execute();
+                   ->delete($sourceMessageTable, ['in', 'id', $obsolete])->execute();
                 echo "deleted.\n";
             } else {
                 $last_id = $db->getLastInsertID();
                 $db->createCommand()
-                    ->update(
-                        $sourceMessageTable,
-                        ['message' => new \yii\db\Expression("CONCAT('@@',message,'@@')")],
-                        ['in', 'id', $obsolete]
-                    )->execute();
+                   ->update(
+                       $sourceMessageTable,
+                       ['message' => new \yii\db\Expression("CONCAT('@@',message,'@@')")],
+                       ['in', 'id', $obsolete]
+                   )->execute();
                 foreach ($languages as $language) {
                     $db->createCommand()
-                    ->insert($messageTable, ['id' => $last_id, 'language' => $language])->execute();
+                       ->insert($messageTable, ['id' => $last_id, 'language' => $language])->execute();
                 }
                 echo "updated.\n";
             }
@@ -281,19 +293,31 @@ class MessageController extends Controller
      * @param boolean $removeUnused if obsolete translations should be removed
      * @param boolean $sort if translations should be sorted
      * @param string $format output format
+     * @param string $category message category
      */
-    protected function generateMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $format)
+    protected function generateMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $format, $category)
     {
         echo "Saving messages to $fileName...";
+        if ($format === 'po') {
+            $this->generatePOMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $category);
+        } else {
+            $this->generatePHPMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort);
+        }
+    }
+
+    /**
+     * Writes messages into PHP file
+     *
+     * @param array $messages
+     * @param string $fileName name of the file to write to
+     * @param boolean $overwrite if existing file should be overwritten without backup
+     * @param boolean $removeUnused if obsolete translations should be removed
+     * @param boolean $sort if translations should be sorted
+     */
+    protected function generatePHPMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort)
+    {
         if (is_file($fileName)) {
-            if ($format === 'po') {
-                $translated = file_get_contents($fileName);
-                preg_match_all('/(?<=msgid ").*(?="\n(#*)msgstr)/', $translated, $keys);
-                preg_match_all('/(?<=msgstr ").*(?="\n\n)/', $translated, $values);
-                $translated = array_combine($keys[0], $values[0]);
-            } else {
-                $translated = require($fileName);
-            }
+            $translated = require($fileName);
             sort($messages);
             ksort($translated);
             if (array_keys($translated) == $messages) {
@@ -304,9 +328,6 @@ class MessageController extends Controller
             $merged = [];
             $untranslated = [];
             foreach ($messages as $message) {
-                if ($format === 'po') {
-                    $message = preg_replace('/\"/', '\"', $message);
-                }
                 if (array_key_exists($message, $translated) && strlen($translated[$message]) > 0) {
                     $merged[$message] = $translated[$message];
                 } else {
@@ -336,47 +357,19 @@ class MessageController extends Controller
             if (false === $overwrite) {
                 $fileName .= '.merged';
             }
-            if ($format === 'po') {
-                $output = '';
-                foreach ($merged as $k => $v) {
-                    $k = preg_replace('/(\")|(\\\")/', "\\\"", $k);
-                    $v = preg_replace('/(\")|(\\\")/', "\\\"", $v);
-                    if (substr($v, 0, 2) === '@@' && substr($v, -2) === '@@') {
-                        $output .= "#msgid \"$k\"\n";
-                        $output .= "#msgstr \"$v\"\n";
-                    } else {
-                        $output .= "msgid \"$k\"\n";
-                        $output .= "msgstr \"$v\"\n";
-                    }
-                    $output .= "\n";
-                }
-                $merged = $output;
-            }
             echo "translation merged.\n";
         } else {
-            if ($format === 'po') {
-                $merged = '';
-                sort($messages);
-                foreach ($messages as $message) {
-                    $message = preg_replace('/(\")|(\\\")/', '\\\"', $message);
-                    $merged .= "msgid \"$message\"\n";
-                    $merged .= "msgstr \"\"\n";
-                    $merged .= "\n";
-                }
-            } else {
-                $merged = [];
-                foreach ($messages as $message) {
-                    $merged[$message] = '';
-                }
-                ksort($merged);
+            $merged = [];
+            foreach ($messages as $message) {
+                $merged[$message] = '';
             }
-            echo "saved.\n";
+            ksort($merged);
         }
-        if ($format === 'po') {
-            $content = $merged;
-        } else {
-            $array = VarDumper::export($merged);
-            $content = <<<EOD
+        echo "saved.\n";
+
+
+        $array = VarDumper::export($merged);
+        $content = <<<EOD
 <?php
 /**
  * Message translations.
@@ -398,7 +391,79 @@ class MessageController extends Controller
 return $array;
 
 EOD;
-        }
+
         file_put_contents($fileName, $content);
+    }
+
+    /**
+     * Writes messages into PO file
+     *
+     * @param array $messages
+     * @param string $fileName name of the file to write to
+     * @param boolean $overwrite if existing file should be overwritten without backup
+     * @param boolean $removeUnused if obsolete translations should be removed
+     * @param boolean $sort if translations should be sorted
+     * @param string $category message category
+     */
+    protected function generatePOMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $category)
+    {
+        $poFile = new GettextPoFile();
+        if (is_file($fileName)) {
+            $existingMessages = $poFile->load($fileName, $category);
+
+            sort($messages);
+            ksort($existingMessages);
+            if (array_keys($existingMessages) == $messages) {
+                echo "Nothing new... skipped.\n";
+                return self::EXIT_CODE_NORMAL;
+            }
+
+            $merged = [];
+            $notTranslatedYet = [];
+
+            // merge existing message translations with new message translations
+            foreach ($messages as $message) {
+                if (array_key_exists($message, $existingMessages) && strlen($existingMessages[$message]) > 0) {
+                    $merged[$message] = $existingMessages[$message];
+                } else {
+                    $notTranslatedYet[] = $message;
+                }
+            }
+            ksort($merged);
+            sort($notTranslatedYet);
+
+            // collect not yet translated messages
+            $todos = [];
+            foreach ($notTranslatedYet as $message) {
+                $todos[$message] = '';
+            }
+
+            // add obsolete unused messages
+            foreach ($existingMessages as $message => $translation) {
+                if (!isset($merged[$message]) && !isset($todos[$message]) && !$removeUnused) {
+                    if (substr($translation, 0, 2) === '@@' && substr($translation, -2) === '@@') {
+                        $todos[$message] = $translation;
+                    } else {
+                        $todos[$message] = '@@' . $translation . '@@';
+                    }
+                }
+            }
+
+            $merged = array_merge($todos, $merged);
+            if ($sort) {
+                ksort($merged);
+            }
+
+            if ($overwrite === false) {
+                $fileName .= '.merged';
+            }
+
+            echo "Translation merged.\n";
+        } else {
+            sort($messages);
+        }
+
+        $poFile->save($fileName, $messages);
+        echo "Saved.\n";
     }
 }
