@@ -81,16 +81,13 @@ class MessageController extends Controller
             throw new Exception("The configuration file does not exist: $configFile");
         }
 
-        $config = array_merge(
-            [
-                'translator' => 'Yii::t',
-                'overwrite' => false,
-                'removeUnused' => false,
-                'sort' => false,
-                'format' => 'php',
-            ],
-            require($configFile)
-        );
+        $config = array_merge([
+            'translator' => 'Yii::t',
+            'overwrite' => false,
+            'removeUnused' => false,
+            'sort' => false,
+            'format' => 'php',
+        ], require($configFile));
 
         if (!isset($config['sourcePath'], $config['messagePath'], $config['languages'])) {
             throw new Exception('The configuration file must specify "sourcePath", "messagePath" and "languages".');
@@ -129,15 +126,7 @@ class MessageController extends Controller
                         mkdir($path, 0755, true);
                     }
                     $msgs = array_values(array_unique($msgs));
-                    $this->generateMessageFile(
-                        $msgs,
-                        $file,
-                        $config['overwrite'],
-                        $config['removeUnused'],
-                        $config['sort'],
-                        $config['format'],
-                        $category
-                    );
+                    $this->generateMessageFile($msgs, $file, $config['overwrite'], $config['removeUnused'], $config['sort'], $config['format'], $category);
                 }
             }
         } elseif ($config['format'] === 'db') {
