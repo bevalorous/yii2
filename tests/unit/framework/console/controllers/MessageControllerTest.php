@@ -258,8 +258,8 @@ class MessageControllerTest extends TestCase
         $this->runMessageControllerAction('extract', [$this->configFileName]);
 
         $messages = require($this->messagePath . DIRECTORY_SEPARATOR . $messageFileName);
-        $this->assertTrue(array_key_exists($newMessage, $messages), 'Unable to add new message!');
-        $this->assertTrue(array_key_exists($existingMessage, $messages), 'Unable to keep existing message!');
+        $this->assertTrue(array_key_exists($newMessage, $messages), 'Unable to add new message: "' . $newMessage . '"');
+        $this->assertTrue(array_key_exists($existingMessage, $messages), 'Unable to keep existing message: "' . $existingMessage . '"');
         $this->assertEquals('', $messages[$newMessage], 'Wrong new message content!');
         $this->assertEquals($existingMessageContent, $messages[$existingMessage], 'Unable to keep existing message content!');
     }
