@@ -297,7 +297,7 @@ class MessageController extends Controller
      */
     protected function generateMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $format, $category)
     {
-        echo "Saving messages to $fileName...";
+        echo "Saving messages to $fileName...\n";
         if ($format === 'po') {
             $this->generatePOMessageFile($messages, $fileName, $overwrite, $removeUnused, $sort, $category);
         } else {
@@ -357,7 +357,7 @@ class MessageController extends Controller
             if (false === $overwrite) {
                 $fileName .= '.merged';
             }
-            echo "translation merged.\n";
+            echo "Translation merged.\n";
         } else {
             $merged = [];
             foreach ($messages as $message) {
@@ -365,7 +365,7 @@ class MessageController extends Controller
             }
             ksort($merged);
         }
-        echo "saved.\n";
+        echo "Saved.\n";
 
 
         $array = VarDumper::export($merged);
