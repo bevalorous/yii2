@@ -12,43 +12,42 @@
 В данном разделе мы опишем, как составлять ответы и отправлять их конечным пользователям. 
 
 
-## Status Code <a name="status-code"></a>
+## Код состояния <a name="status-code"></a>
 
-One of the first things you would do when building a response is to state whether the request is successfully handled.
-This is done by setting the [[yii\web\Response::statusCode]] property which can take one of the valid
-[HTTP status codes](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html). For example, to indicate the request
-is successfully handled, you may set the status code to be 200, like the following:
+Одна из первых вещей, которые вы делаете при построении ответа, — это определение того, был ли успешно обработан запрос.
+Это делается путём установки свойства [[yii\web\Response::statusCode]], которое может принимать значение одного из валидных 
+[HTTP-кодов состояния](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html). Например, чтобы показать, что запрос был
+успешно обработан, вы можете установить значение кода состояния равным 200, вот так:
 
 ```php
 Yii::$app->response->statusCode = 200;
 ```
 
-However, in most cases you do not need to explicitly set the status code. This is because the default value
-of [[yii\web\Response::statusCode]] is 200. And if you want to indicate the request is unsuccessful, you may
-throw an appropriate HTTP exception like the following:
+Однако в большинстве случаев вам не нужно явно устанавливать значение кода состояния. Дело в том, что значение свойства [[yii\web\Response::statusCode]] по умолчанию равно 200. А если вам нужно показать, что запрос не имел успеха, вы можете
+выбросить соответствующее HTTP-исключение, как показано здесь:
 
 ```php
 throw new \yii\web\NotFoundHttpException;
 ```
 
-When the [error handler](runtime-handling-errors.md) catches an exception, it will extract the status code 
-from the exception and assign it to the response. For the [[yii\web\NotFoundHttpException]] above, it is
-associated with the HTTP status 404. The following HTTP exceptions are predefined in Yii:
+Когда [обработчик ошибок](runtime-handling-errors.md) поймает исключение, он извлечёт код состояния 
+из исключения и назначит его ответу. Исключение [[yii\web\NotFoundHttpException]] в коде выше 
+связано с HTTP-кодом состояния 404. В Yii предопределены следующие HTTP-исключения:
 
-* [[yii\web\BadRequestHttpException]]: status code 400.
-* [[yii\web\ConflictHttpException]]: status code 409.
-* [[yii\web\ForbiddenHttpException]]: status code 403.
-* [[yii\web\GoneHttpException]]: status code 410.
-* [[yii\web\MethodNotAllowedHttpException]]: status code 405.
-* [[yii\web\NotAcceptableHttpException]]: status code 406. 
-* [[yii\web\NotFoundHttpException]]: status code 404.
-* [[yii\web\ServerErrorHttpException]]: status code 500.
-* [[yii\web\TooManyRequestsHttpException]]: status code 429.
-* [[yii\web\UnauthorizedHttpException]]: status code 401.
-* [[yii\web\UnsupportedMediaTypeHttpException]]: status code 415.
+* [[yii\web\BadRequestHttpException]]: код состояния 400.
+* [[yii\web\ConflictHttpException]]: код состояния 409.
+* [[yii\web\ForbiddenHttpException]]: код состояния 403.
+* [[yii\web\GoneHttpException]]: код состояния 410.
+* [[yii\web\MethodNotAllowedHttpException]]: код состояния 405.
+* [[yii\web\NotAcceptableHttpException]]: код состояния 406. 
+* [[yii\web\NotFoundHttpException]]: код состояния 404.
+* [[yii\web\ServerErrorHttpException]]: код состояния 500.
+* [[yii\web\TooManyRequestsHttpException]]: код состояния 429.
+* [[yii\web\UnauthorizedHttpException]]: код состояния 401.
+* [[yii\web\UnsupportedMediaTypeHttpException]]: код состояния 415.
 
-If the exception that you want to throw is not among the above list, you may create one by extending
-from [[yii\web\HttpException]], or directly throw it with a status code, for example,
+Если в вышеприведённом списке нет исключения, которое вы хотите выбросить, вы можете создать его, расширив класс
+[[yii\web\HttpException]], или выбросить его напрямую с кодом состояния, например:
  
 ```php
 throw new \yii\web\HttpException(402);
