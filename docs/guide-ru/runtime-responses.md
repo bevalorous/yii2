@@ -76,20 +76,20 @@ $values = $headers->remove('Pragma');
   не будет вызван метод [[yii\web\Response::send()]].
 
 
-## Response Body <a name="response-body"></a>
+## Тело ответа <a name="response-body"></a>
 
-Most responses should have a body which gives the content that you want to show to end users.
+Большинство ответов должны иметь тело, which gives the content that you want to show to end users.
 
-If you already have a formatted body string, you may assign it to the [[yii\web\Response::content]] property
-of the response. For example,
+Если у вас уже имеется отформатированная строка тела, вы можете назначить её свойству [[yii\web\Response::content]] 
+объекта запроса. Например:
 
 ```php
 Yii::$app->response->content = 'hello world!';
 ```
 
-If your data needs to be formatted before sending it to end users, you should set both of the
-[[yii\web\Response::format|format]] and [[yii\web\Response::data|data]] properties. The [[yii\web\Response::format|format]]
-property specifies in which format the [[yii\web\Response::data|data]] should be formatted. For example,
+Если ваши данные нужно отформатировать перед отправкой конечным пользователям, вам следует установить значения двух свойств:
+[[yii\web\Response::format|формат]] и [[yii\web\Response::data|данные]]. Свойство [[yii\web\Response::format|формат]]
+определяет, в каком формате следует возвращать [[yii\web\Response::data|данные]]. Например:
 
 ```php
 $response = Yii::$app->response;
@@ -97,16 +97,16 @@ $response->format = \yii\web\Response::FORMAT_JSON;
 $response->data = ['message' => 'hello world'];
 ```
 
-Yii supports the following formats out of the box, each implemented by a [[yii\web\ResponseFormatterInterface|formatter]] class.
-You can customize these formatters or add new ones by configuring the [[yii\web\Response::formatters]] property.
+Yii из коробки имеет поддержку следующих форматов, каждый из которых реализован классом [[yii\web\ResponseFormatterInterface|форматтера]].
+Вы можете настроить эти форматтеры или добавить новые путём настройки свойства [[yii\web\Response::formatters]].
 
-* [[yii\web\Response::FORMAT_HTML|HTML]]: implemented by [[yii\web\HtmlResponseFormatter]].
-* [[yii\web\Response::FORMAT_XML|XML]]: implemented by [[yii\web\XmlResponseFormatter]].
-* [[yii\web\Response::FORMAT_JSON|JSON]]: implemented by [[yii\web\JsonResponseFormatter]].
-* [[yii\web\Response::FORMAT_JSONP|JSONP]]: implemented by [[yii\web\JsonResponseFormatter]].
+* [[yii\web\Response::FORMAT_HTML|HTML]]: реализуется классом [[yii\web\HtmlResponseFormatter]].
+* [[yii\web\Response::FORMAT_XML|XML]]: реализуется классом [[yii\web\XmlResponseFormatter]].
+* [[yii\web\Response::FORMAT_JSON|JSON]]: реализуется классом [[yii\web\JsonResponseFormatter]].
+* [[yii\web\Response::FORMAT_JSONP|JSONP]]: реализуется классом [[yii\web\JsonResponseFormatter]].
 
-While response body can be set explicitly as shown above, in most cases you may set it implicitly by the return value
-of [action](structure-controllers.md) methods. A common use case is like the following:
+Хотя тело запроса может быть явно установлено показанным выше способом, в большинстве случаев вы можете устанавливать его неявно через возвращаемое значение методов 
+[действий](structure-controllers.md). Типичный пример использования:
  
 ```php
 public function actionIndex()
@@ -115,12 +115,12 @@ public function actionIndex()
 }
 ```
 
-The `index` action above returns the rendering result of the `index` view. The return value will be taken
-by the `response` component, formatted and then sent to end users.
+Действие `index` в коде выше возвращает результат рендеринга представления `index`. Возвращаемое значение будет взято 
+компонентом `response`, отформатировано и затем отправлено конечным пользователям.
 
-Because by default, the response format is as [[yii\web\Response::FORMAT_HTML|HTML]], you should only return a string
-in an action method. If you want to use a different response format, you should set it first before returning the data.
-For example,
+Так как по умолчанию форматом ответа является [[yii\web\Response::FORMAT_HTML|HTML]], вам нужно лишь вернуть строку
+в методе действия. Если вы хотите использовать другой формат ответа, вам нужно сначала установить его перед отправкой данных.
+Например:
 
 ```php
 public function actionInfo()
@@ -133,8 +133,8 @@ public function actionInfo()
 }
 ```
 
-As aforementioned, besides using the default `response` application component, you can also create your own
-response objects and send them to end users. You can do so by returning such object in an action method, like the following,
+Как было сказано выше, кроме использования компонента приложения `response`  по умолчанию вы также можете создавать свои
+объекты ответа и отправлять их конечным пользователям. Вы можете сделать это, возвращая такой объект в методе действия, например:
 
 ```php
 public function actionInfo()
@@ -150,9 +150,8 @@ public function actionInfo()
 }
 ```
 
-> Note: If you are creating your own response objects, you will not be able to take advantage of the configurations
-  that you set for the `response` component in the application configuration. You can, however, use 
-  [dependency injection](concept-di-container.md) to apply common configuration to your new response objects.
+> Примечание: создавая собственные объекты ответов, вы не сможете воспользоваться конфигурацией компонента `response`, настроенной вами в конфигурации приложения. Тем не менее, вы можете воспользоваться 
+  [внедрением зависимости](concept-di-container.md), чтобы применить общую конфигурацию к вашим новым объектам ответа.
 
 
 ## Browser Redirection <a name="browser-redirection"></a>
