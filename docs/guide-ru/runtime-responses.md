@@ -1,15 +1,15 @@
-Responses
+Ответы
 =========
 
-When an application finishes handling a [request](runtime-requests.md), it generates a [[yii\web\Response|response]] object
-and sends it to the end user. The response object contains information such as the HTTP status code, HTTP headers and body.
-The ultimate goal of Web application development is essentially to build such response objects upon various requests.
+Когда приложение заканчивает обработку [запроса](runtime-requests.md), оно генерирует объект [[yii\web\Response|ответа]]
+и отправляет его конечному пользователю. Объект ответа содержит такие данные, как HTTP-код состояния, HTTP-заголовки и тело ответа.
+По существу, конечная цель разработки Web-приложения — создание таких объектов ответа на различные запросы.
 
-In most cases you should mainly deal with the `response` [application component](structure-application-components.md)
-which is an instance of [[yii\web\Response]], by default. However, Yii also allows you to create your own response
-objects and send them to end users as we will explain in the following.
+В большинстве случаев вам придется иметь дело в основном с [компонентом приложения](structure-application-components.md) `response`,
+который по умолчанию является экземпляром класса [[yii\web\Response]]. Однако Yii также позволяет вам создавать собственные объекты ответа
+и отправлять их конечным пользователям, как будет рассмотрено ниже.
 
-In this section, we will describe how to compose and send responses to end users. 
+В данном разделе мы опишем, как составлять ответы и отправлять их конечным пользователям. 
 
 
 ## Status Code <a name="status-code"></a>
