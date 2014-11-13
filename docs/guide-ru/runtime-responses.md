@@ -54,26 +54,26 @@ throw new \yii\web\HttpException(402);
 ```
 
 
-## HTTP Headers <a name="http-headers"></a> 
+## HTTP-заголовки <a name="http-headers"></a> 
 
-You can send HTTP headers by manipulating the [[yii\web\Response::headers|header collection]] in the `response` component.
-For example,
+Вы можете отправлять HTTP-заголовки, управляя [[yii\web\Response::headers|набором заголовков]] компонента `response`.
+Например:
 
 ```php
 $headers = Yii::$app->response->headers;
 
-// add a Pragma header. Existing Pragma headers will NOT be overwritten.
+// добавить заголовок Pragma. Уже имеющиеся Pragma-заголовки НЕ будут перезаписаны.
 $headers->add('Pragma', 'no-cache');
 
-// set a Pragma header. Any existing Pragma headers will be discarded.
+// установить заголовок Pragma. Любые уже имеющиеся Pragma-заголовки будут сброшены.
 $headers->set('Pragma', 'no-cache');
 
-// remove Pragma header(s) and return the removed Pragma header values in array
+// удалить заголовок (или заголовки) Pragma и вернуть значения удалённых Pragma-заголовков в массиве
 $values = $headers->remove('Pragma');
 ```
 
-> Info: Header names are case insensitive. And the newly registered headers are not sent to the user until
-  the [[yii\web\Response::send()]] method is called.
+> Информация: названия заголовков регистронезависимы. Заново зарегистрированные заголовки не отсылаются пользователю до тех пор, пока
+  не будет вызван метод [[yii\web\Response::send()]].
 
 
 ## Response Body <a name="response-body"></a>
