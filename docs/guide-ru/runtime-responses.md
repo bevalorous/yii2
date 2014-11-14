@@ -154,14 +154,14 @@ public function actionInfo()
   [внедрением зависимости](concept-di-container.md), чтобы применить общую конфигурацию к вашим новым объектам ответа.
 
 
-## Browser Redirection <a name="browser-redirection"></a>
+## Перенаправление браузера <a name="browser-redirection"></a>
 
-Browser redirection relies on sending a `Location` HTTP header. Because this feature is commonly used, Yii provides
-some special supports for it.
+Перенаправление браузера основано на отправке HTTP-заголовка `Location`. Так как данная возможность широко используется, Yii предоставляет
+некоторые специальные средства её поддержки.
 
-You can redirect the user browser to a URL by calling the [[yii\web\Response::redirect()]] method. The method
-sets the appropriate `Location` header with the given URL and returns the response object itself. In an action method,
-you can call its shortcut version [[yii\web\Controller::redirect()]]. For example,
+Вы можете перенаправить браузер пользователя на URL-адрес, вызвав метод [[yii\web\Response::redirect()]]. Этот метод
+устанавливает в соответствующий заголовок `Location` указанный URL-адрес и возвращает сам объект ответа. В методе действия
+вы можете вызвать короткую версию, [[yii\web\Controller::redirect()]]. Например:
 
 ```php
 public function actionOld()
@@ -170,28 +170,28 @@ public function actionOld()
 }
 ```
 
-In the above code, the action method returns the result of the `redirect()` method. As explained before, the response
-object returned by an action method will be used as the response sending to end users.
+В коде выше метод действия возвращает результат вызова метода `redirect()`. Как описано ранее, объект ответа,
+возвращаемый методом действия, будет использоваться как ответ, отправляемый конечным пользователям.
 
-In places other than an action method, you should call [[yii\web\Response::redirect()]] directly followed by 
-a call to the [[yii\web\Response::send()]] method to ensure no extra content will be appended to the response.
+В местах, отличных от методов действий, следует напрямую вызывать [[yii\web\Response::redirect()]] и сразу после него — 
+метод [[yii\web\Response::send()]] для уверенности в том, что никакое дополнительное содержимое не будет добавлено к ответу.
 
 ```php
 \Yii::$app->response->redirect('http://example.com/new', 301)->send();
 ```
 
-> Info: By default, the [[yii\web\Response::redirect()]] method sets the response status code to be 302 which instructs
-  the browser that the resource being requested is *temporarily* located in a different URI. You can pass in a status
-  code 301 to tell the browser that the resource has been *permanently* relocated.
+> Информация: по умолчанию метод [[yii\web\Response::redirect()]] устанавливает код состояния ответа равным 302, сообщая тем самым браузеру,
+  что запрошенный ресурс *временно* находится по другому URI-адресу. Вы можете передать значение
+  301 в коде состояния, чтобы сообщить браузеру, что ресурс был перемещен *навсегда*.
 
-When the current request is an AJAX request, sending a `Location` header will not automatically cause the browser
-redirection. To solve this problem, the [[yii\web\Response::redirect()]] method sets an `X-Redirect` header with 
-the redirection URL as its value. On the client side you may write JavaScript code to read this header value and
-redirect the browser accordingly.
+Если текущий запрос является AJAX-запросом, отправка заголовка `Location` не приведёт к автоматическому перенаправлению 
+браузера. Чтобы решить эту задачу, метод [[yii\web\Response::redirect()]] устанавливает значение заголовка `X-Redirect`  
+равным URL-адресу перенаправления. На стороне клиента вы можете написать JavaScript-код, который считывает значение этого заголовка и соответствующим образом
+перенаправляет браузер.
 
-> Info: Yii comes with a `yii.js` JavaScript file which provides a set of commonly used JavaScript utilities,
-  including browser redirection based on the `X-Redirect` header. Therefore, if you are using this JavaScript file
-  (by registering the [[yii\web\YiiAsset]] asset bundle), you do not need to write anything to support AJAX redirection.
+> Информация: Yii поставляется с JavaScript-файлом `yii.js`, который предоставляет набор наиболее часто используемых JavaScript-инструментов,
+  включая и перенаправление браузера с использованием заголовка `X-Redirect`. Следовательно, если вы используете этот JavaScript-файл
+  (зарегистрировав пакет ресурсов [[yii\web\YiiAsset]]), вам не нужно писать никакой код для поддержки AJAX-перенаправления.
 
 
 ## Sending Files <a name="sending-files"></a>
