@@ -26,7 +26,7 @@ by running `composer self-update`.
 
 With Composer installed, you can install Yii by running the following commands under a Web-accessible folder:
 
-    composer global require "fxp/composer-asset-plugin:1.0.0-beta3"
+    composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
     composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 
 The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
@@ -121,7 +121,7 @@ PHP so you have to take some extra care when using HHVM.
 On a production server, you may want to configure your Web server so that the application can be accessed
 via the URL `http://www.example.com/index.php` instead of `http://www.example.com/basic/web/index.php`. Such configuration
 requires pointing the document root of your Web server to the `basic/web` folder. You may also
-want to hide `index.php` from the URL, as described in the [URL Parsing and Generation](runtime-url-handling.md) section.
+want to hide `index.php` from the URL, as described in the [Routing and URL Creation](runtime-routing.md) section.
 In this subsection, you'll learn how to configure your Apache or Nginx server to achieve these goals.
 
 > Info: By setting `basic/web` as the document root, you also prevent end users from accessing

@@ -51,7 +51,7 @@ Por exemplo,
 ]
 ```
 
-> Info: Embora você possa registrar quantos componentes de aplicação você quiser,
+> Informação: Embora você possa registrar quantos componentes de aplicação você quiser,
   você deveria fazer isso com juízo. Componentes de aplicação são como variáveis
   globais. Usar componentes de aplicação demais pode tornar seu código
   potencialmente mais difícil de testar e manter. Em muitos casos, você pode
@@ -132,7 +132,7 @@ se você não especificar sua classe, a padrão será utilizada.
   só está disponível em [[yii\web\Application|aplicações Web]]. Por favor consulte
   a seção [Sessões e Cookies](runtime-sessions-cookies.md) para mais detalhes.
 * [[yii\web\UrlManager|urlManager]]: suporta a análise e criação de URLs. Por
-  favor consulte a seção [Análise e Geração de URLs](runtime-url-handling.md)
+  favor consulte a seção [Análise e Geração de URLs](runtime-routing.md)
   para mais detalhes.
 * [[yii\web\User|user]]: representa as informações de autenticação do usuário.
   Esse componente só está disponível em [[yii\web\Application|aplicações Web]].

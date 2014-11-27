@@ -25,7 +25,7 @@ Composer は `composer self-update` コマンドを走らせてアップデー�
 
 Composer がインストールされたら、ウェブからアクセスできるフォルダーで下記のコマンドを実行することによって Yii をインストールすることが出来ます:
 
-    composer global require "fxp/composer-asset-plugin:1.0.0-beta3"
+    composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
     composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 
 最初のコマンドは [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) をインストールします。
@@ -120,7 +120,7 @@ Yii 2.0 は、また、facebook の [HHVM](http://hhvm.com/) とも互換性が�
 
 実運用のサーバでは、`http://www.example.com/basic/web/index.php` の代りに `http://www.example.com/index.php` という URL でアプリケーションにアクセス出来るようにウェブサーバを設定したいと思うかもしれません。
 そういう設定をするためには、ウェブサーバのドキュメントルートを `basic/web` フォルダに向けることが必要になります。
-また、[URL の解析と生成](runtime-url-handling.md) の節で述べられているように、URL から `index.php` を隠したいと思うかも知れません。
+また、[ルーティングと URL 生成](runtime-routing.md) の節で述べられているように、URL から `index.php` を隠したいと思うかも知れません。
 この節では、これらの目的を達するために Apache または Nginx サーバをどのように設定すれば良いかを学びます。
 
 > Info|情報: `basic/web` をドキュメントルートに設定することは、`basic/web` の兄弟ディレクトリに保管されたプライベートなアプリケーションコードや取り扱いに注意を要するデータファイルにエンドユーザがアクセスすることを防止することにもなります。

@@ -29,11 +29,11 @@
 
 После установки Composer устанавливать Yii можно запустив следующую команду в папке доступной через веб:
 
-    composer global require "fxp/composer-asset-plugin:1.0.0-beta3"
+    composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
     composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 
 Первая команда устанавливает [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/),
-который позводяет управлять зависимостями пакетов bower и npm через Composer. Эту команду достаточно выполнить один раз.
+который позволяет управлять зависимостями пакетов bower и npm через Composer. Эту команду достаточно выполнить один раз.
 Вторая команда устанавливает Yii в директорию `basic`. Если хотите, можете выбрать другое имя директории.
 
 Composer установит Yii (шаблонное приложение basic) в папку `basic`.
