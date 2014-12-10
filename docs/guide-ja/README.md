@@ -1,8 +1,7 @@
-Yii 2.0 公式ガイド
-==================
+Yii 2.0 決定版ガイド
+====================
 
-このチュートリアルは [Yii ドキュメント規約](http://www.yiiframework.com/doc/terms/) の下に
-リリースされています。
+このチュートリアルは [Yii ドキュメント規約](http://www.yiiframework.com/doc/terms/) の下にリリースされています。
 
 All Rights Reserved.
 
@@ -55,21 +54,21 @@ All Rights Reserved.
 * [レスポンス](runtime-responses.md)
 * [セッションとクッキー](runtime-sessions-cookies.md)
 * [エラー処理](runtime-handling-errors.md)
-* [ログ](runtime-logging.md)
+* [ロギング](runtime-logging.md)
 
 
 鍵となる概念
 ------------
 
-* [コンポーネント](concept-components.md)
-* [プロパティ](concept-properties.md)
-* [イベント](concept-events.md)
-* [ビヘイビア](concept-behaviors.md)
-* [コンフィギュレーション](concept-configurations.md)
-* [エイリアス](concept-aliases.md)
-* [クラスのオートロード](concept-autoloading.md)
-* [サービスロケータ](concept-service-locator.md)
-* [依存性注入コンテナ](concept-di-container.md)
+* **翻訳中** [コンポーネント](concept-components.md)
+* **翻訳中** [プロパティ](concept-properties.md)
+* **翻訳中** [イベント](concept-events.md)
+* **翻訳中** [ビヘイビア](concept-behaviors.md)
+* **翻訳中** [構成情報](concept-configurations.md)
+* **翻訳中** [エイリアス](concept-aliases.md)
+* **翻訳中** [クラスのオートロード](concept-autoloading.md)
+* **翻訳中** [サービスロケータ](concept-service-locator.md)
+* **翻訳中** [依存注入コンテナ](concept-di-container.md)
 
 
 データベースの取り扱い
@@ -88,30 +87,30 @@ All Rights Reserved.
 ユーザからのデータ取得
 ----------------------
 
-* [フォームを作成する](input-forms.md)
-* [入力を検証する](input-validation.md)
-* [ファイルをアップロードする](input-file-upload.md)
+* **翻訳未着手** [フォームを作成する](input-forms.md)
+* **翻訳未着手** [入力を検証する](input-validation.md)
+* **翻訳未着手** [ファイルをアップロードする](input-file-upload.md)
 * **TBD** [複数モデルのためのデータ取得](input-multiple-models.md)
 
 
 データの表示
 ------------
 
-* [データの書式設定](output-formatter.md)
+* **翻訳未着手** [データの書式設定](output-formatter.md)
 * **TBD** [ページネーション](output-pagination.md)
 * **TBD** [並べ替え](output-sorting.md)
-* [データプロバイダ](output-data-providers.md)
-* [データウィジェット](output-data-widgets.md)
-* [クライアントスクリプトを使う](output-client-scripts.md)
-* [テーマを使う](output-theming.md)
+* **翻訳未着手** [データプロバイダ](output-data-providers.md)
+* **翻訳未着手** [データウィジェット](output-data-widgets.md)
+* **翻訳未着手** [クライアントスクリプトを扱う](output-client-scripts.md)
+* **翻訳未着手** [テーマ](output-theming.md)
 
 
 セキュリティ
 ------------
 
-* [認証](security-authentication.md)
-* [権限](security-authorization.md)
-* [パスワードを扱う](security-passwords.md)
+* **翻訳未着手** [認証](security-authentication.md)
+* **翻訳未着手** [権限](security-authorization.md)
+* **翻訳未着手** [パスワードを扱う](security-passwords.md)
 * **TBD** [Auth クライアント](security-auth-clients.md)
 * **TBD** [最善の慣行](security-best-practices.md)
 
@@ -129,72 +128,72 @@ All Rights Reserved.
 RESTful ウェブサービス
 ----------------------
 
-* [クイックスタート](rest-quick-start.md)
-* [リソース](rest-resources.md)
-* [コントローラ](rest-controllers.md)
-* [ルーティング](rest-routing.md)
-* [レスポンスの書式設定](rest-response-formatting.md)
-* [認証](rest-authentication.md)
-* [転送レート制限](rest-rate-limiting.md)
-* [バージョン管理](rest-versioning.md)
-* [エラー処理](rest-error-handling.md)
+* **翻訳未着手** [クイックスタート](rest-quick-start.md)
+* **翻訳未着手** [リソース](rest-resources.md)
+* **翻訳未着手** [コントローラ](rest-controllers.md)
+* **翻訳未着手** [ルーティング](rest-routing.md)
+* **翻訳未着手** [レスポンスの書式設定](rest-response-formatting.md)
+* **翻訳未着手** [認証](rest-authentication.md)
+* **翻訳未着手** [転送レート制限](rest-rate-limiting.md)
+* **翻訳未着手** [バージョン管理](rest-versioning.md)
+* **翻訳未着手** [エラー処理](rest-error-handling.md)
 
 
 開発ツール
 ----------
 
-* [デバッグツールバーとデバッガ](tool-debugger.md)
-* [Gii を使ってコードを生成する](tool-gii.md)
+* **翻訳未着手** [デバッグツールバーとデバッガ](tool-debugger.md)
+* **翻訳未着手** [Gii を使ってコードを生成する](tool-gii.md)
 * **TBD** [API ドキュメントを生成する](tool-api-doc.md)
 
 
 テスト
 ------
 
-* [概要](test-overview.md)
-* [テスト環境の構築](test-environment-setup.md)
-* [ユニットテスト](test-unit.md)
-* [機能テスト](test-functional.md)
-* [承認テスト](test-acceptance.md)
-* [フィクスチャ](test-fixtures.md)
+* **翻訳未着手** [概要](test-overview.md)
+* **翻訳未着手** [テスト環境の構築](test-environment-setup.md)
+* **翻訳未着手** [ユニットテスト](test-unit.md)
+* **翻訳未着手** [機能テスト](test-functional.md)
+* **翻訳未着手** [承認テスト](test-acceptance.md)
+* **翻訳未着手** [フィクスチャ](test-fixtures.md)
 
 
 スペシャルトピック
 ------------------
 
-* [アドバンストアプリケーションテンプレート](tutorial-advanced-app.md)
-* [アプリケーションを一から構築する](tutorial-start-from-scratch.md)
-* [コンソールコマンド](tutorial-console.md)
-* [コアのバリデータ](tutorial-core-validators.md)
-* [国際化](tutorial-i18n.md)
-* [メール](tutorial-mailing.md)
-* [パフォーマンスチューニング](tutorial-performance-tuning.md)
-* **TBD** [共有ホスト環境](tutorial-shared-hosting.md)
-* [テンプレートエンジン](tutorial-template-engines.md)
-* [サードパーティのコードを扱う](tutorial-yii-integration.md)
+* **翻訳未着手** [アドバンストアプリケーションテンプレート](tutorial-advanced-app.md)
+* **翻訳未着手** [アプリケーションを一から構築する](tutorial-start-from-scratch.md)
+* **翻訳未着手** [コンソールコマンド](tutorial-console.md)
+* **翻訳未着手** [コアのバリデータ](tutorial-core-validators.md)
+* **翻訳未着手** [国際化](tutorial-i18n.md)
+* **翻訳未着手** [メール](tutorial-mailing.md)
+* **翻訳未着手** [パフォーマンスチューニング](tutorial-performance-tuning.md)
+* **翻訳未着手** [共有ホスト環境](tutorial-shared-hosting.md)
+* **翻訳未着手** [テンプレートエンジン](tutorial-template-engines.md)
+* **翻訳未着手** [サードパーティのコードを扱う](tutorial-yii-integration.md)
 
 
 ウィジェット
 ------------
 
-* GridView: link to demo page
-* ListView: link to demo page
-* DetailView: link to demo page
-* ActiveForm: link to demo page
-* Pjax: link to demo page
-* Menu: link to demo page
-* LinkPager: link to demo page
-* LinkSorter: link to demo page
+* GridView: **TBD** link to demo page
+* ListView: **TBD** link to demo page
+* DetailView: **TBD** link to demo page
+* ActiveForm: **TBD** link to demo page
+* Pjax: **TBD** link to demo page
+* Menu: **TBD** link to demo page
+* LinkPager: **TBD** link to demo page
+* LinkSorter: **TBD** link to demo page
 * [Bootstrap ウィジェット](widget-bootstrap.md)
 * [Jquery UI ウィジェット](widget-jui.md)
 
 
-ヘルパー
---------
+ヘルパ
+------
 
-* [概要](helper-overview.md)
-* **TBD** [ArrayHelper](helper-array.md)
-* **TBD** [Html](helper-html.md)
-* **TBD** [Url](helper-url.md)
+* **翻訳未着手** [概要](helper-overview.md)
+* **翻訳未着手** [ArrayHelper](helper-array.md)
+* **翻訳未着手** [Html](helper-html.md)
+* **翻訳未着手** [Url](helper-url.md)
 * **TBD** [Security](helper-security.md)
 

@@ -1,4 +1,4 @@
-Advanced application template
+Advanced Application Template
 =============================
 
 > Note: This section is under development.
@@ -6,6 +6,25 @@ Advanced application template
 This template is for large projects developed in teams where the backend is divided from the frontend, application is deployed
 to multiple servers etc. This application template also goes a bit further regarding features and provides essential
 database, signup and password restore out of the box.
+
+The following table compares the difference between the advanced and the basic application templates:
+
+
+| Feature  |  Basic  |  Advanced |
+|---|:---:|:---:|
+| Project structure |  ✓  |  ✓  |
+| Site controller |  ✓  |  ✓  |
+| User login/logout |   ✓  |  ✓  |
+| Forms  |   ✓  |  ✓  |
+| DB connection  |   ✓  |  ✓  |
+| Console command  |   ✓  |  ✓  |
+| Asset bundle  |   ✓  |  ✓  |
+| Codeception tests  |   ✓  |  ✓  |
+| Twitter Bootstrap  |  ✓   |  ✓  |
+| Front- and back-end apps  |    |  ✓  |
+| Ready to use User model |    |  ✓  |
+| User signup and password restore  |     |  ✓  |
+
 
 Installation
 ------------

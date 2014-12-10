@@ -82,6 +82,8 @@ class Formatter extends Component
      * Please refer to the [php manual](http://www.php.net/manual/en/timezones.php) for available time zones.
      *
      * It defaults to `UTC` so you only have to adjust this value if you store datetime values in another time zone in your database.
+     *
+     * @since 2.0.1
      */
     public $defaultTimeZone = 'UTC';
     /**
@@ -320,7 +322,7 @@ class Formatter extends Component
         if ($value === null) {
             return $this->nullDisplay;
         }
-        return str_replace('<p></p>', '', '<p>' . preg_replace('/\R{2,}/', "</p>\n<p>", Html::encode($value)) . '</p>');
+        return str_replace('<p></p>', '', '<p>' . preg_replace('/\R{2,}/u', "</p>\n<p>", Html::encode($value)) . '</p>');
     }
 
     /**
@@ -527,16 +529,18 @@ class Formatter extends Component
      */
     private function formatDateTimeValue($value, $format, $type)
     {
-        $timestamp = $this->normalizeDatetimeValue($value);
+        $timeZone = $this->timeZone;
+        // avoid time zone conversion for date-only values
+        if ($type === 'date') {
+            list($timestamp, $hasTimeInfo) = $this->normalizeDatetimeValue($value, true);
+            if (!$hasTimeInfo) {
+                $timeZone = $this->defaultTimeZone;
+            }
+        } else {
+            $timestamp = $this->normalizeDatetimeValue($value);
+        }
         if ($timestamp === null) {
             return $this->nullDisplay;
-        }
-
-        // avoid time zone conversion for date-only values
-        if ($type === 'date' && $timestamp->isDateOnly()) {
-            $timeZone = $this->defaultTimeZone;
-        } else {
-            $timeZone = $this->timeZone;
         }
 
         if ($this->_intlLoaded) {
@@ -557,6 +561,10 @@ class Formatter extends Component
             if ($formatter === null) {
                 throw new InvalidConfigException(intl_get_error_message());
             }
+            // make IntlDateFormatter work with DateTimeImmutable
+            if ($timestamp instanceof \DateTimeImmutable) {
+                $timestamp = new DateTime($timestamp->format(DateTime::ISO8601), $timestamp->getTimezone());
+            }
             return $formatter->format($timestamp);
         } else {
             if (strncmp($format, 'php:', 4) === 0) {
@@ -565,7 +573,11 @@ class Formatter extends Component
                 $format = FormatConverter::convertDateIcuToPhp($format, $type, $this->locale);
             }
             if ($timeZone != null) {
-                $timestamp->setTimezone(new DateTimeZone($timeZone));
+                if ($timestamp instanceof \DateTimeImmutable) {
+                    $timestamp = $timestamp->setTimezone(new DateTimeZone($timeZone));
+                } else {
+                    $timestamp->setTimezone(new DateTimeZone($timeZone));
+                }
             }
             return $timestamp->format($format);
         }
@@ -582,32 +594,45 @@ class Formatter extends Component
      *   The timestamp is assumed to be in [[defaultTimeZone]] unless a time zone is explicitly given.
      * - a PHP [DateTime](http://php.net/manual/en/class.datetime.php) object
      *
-     * @return DateTimeExtended the normalized datetime value
+     * @param boolean $checkTimeInfo whether to also check if the date/time value has some time information attached.
+     * Defaults to `false`. If `true`, the method will then return an array with the first element being the normalized
+     * timestamp and the second a boolean indicating whether the timestamp has time information or it is just a date value.
+     * This parameter is available since version 2.0.1.
+     * @return DateTime|array the normalized datetime value.
+     * Since version 2.0.1 this may also return an array if `$checkTimeInfo` is true.
+     * The first element of the array is the normalized timestamp and the second is a boolean indicating whether
+     * the timestamp has time information or it is just a date value.
      * @throws InvalidParamException if the input value can not be evaluated as a date value.
      */
-    protected function normalizeDatetimeValue($value)
+    protected function normalizeDatetimeValue($value, $checkTimeInfo = false)
     {
+        // checking for DateTime and DateTimeInterface is not redundant, DateTimeInterface is only in PHP>5.5
         if ($value === null || $value instanceof DateTime || $value instanceof DateTimeInterface) {
             // skip any processing
-            return $value;
+            return $checkTimeInfo ? [$value, true] : $value;
         }
         if (empty($value)) {
             $value = 0;
         }
         try {
             if (is_numeric($value)) { // process as unix timestamp, which is always in UTC
-                if (($timestamp = DateTimeExtended::createFromFormat('U', $value, new DateTimeZone('UTC'))) === false) {
+                if (($timestamp = DateTime::createFromFormat('U', $value, new DateTimeZone('UTC'))) === false) {
                     throw new InvalidParamException("Failed to parse '$value' as a UNIX timestamp.");
                 }
-                return $timestamp;
-            } elseif (($timestamp = DateTimeExtended::createFromFormat('Y-m-d', $value, new DateTimeZone($this->defaultTimeZone))) !== false) { // try Y-m-d format (support invalid dates like 2012-13-01)
-                return $timestamp;
-            } elseif (($timestamp = DateTimeExtended::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone($this->defaultTimeZone))) !== false) { // try Y-m-d H:i:s format (support invalid dates like 2012-13-01 12:63:12)
-                return $timestamp;
+                return $checkTimeInfo ? [$timestamp, true] : $timestamp;
+            } elseif (($timestamp = DateTime::createFromFormat('Y-m-d', $value, new DateTimeZone($this->defaultTimeZone))) !== false) { // try Y-m-d format (support invalid dates like 2012-13-01)
+                return $checkTimeInfo ? [$timestamp, false] : $timestamp;
+            } elseif (($timestamp = DateTime::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone($this->defaultTimeZone))) !== false) { // try Y-m-d H:i:s format (support invalid dates like 2012-13-01 12:63:12)
+                return $checkTimeInfo ? [$timestamp, true] : $timestamp;
             }
             // finally try to create a DateTime object with the value
-            $timestamp = new DateTimeExtended($value, new DateTimeZone($this->defaultTimeZone));
-            return $timestamp;
+            if ($checkTimeInfo) {
+                $timestamp = new DateTime($value, new DateTimeZone($this->defaultTimeZone));
+                $info = date_parse($value);
+                return [$timestamp, !($info['hour'] === false && $info['minute'] === false && $info['second'] === false)];
+            } else {
+                return new DateTime($value, new DateTimeZone($this->defaultTimeZone));
+            }
         } catch(\Exception $e) {
             throw new InvalidParamException("'$value' is not a valid date time value: " . $e->getMessage()
                 . "\n" . print_r(DateTime::getLastErrors(), true), $e->getCode(), $e);

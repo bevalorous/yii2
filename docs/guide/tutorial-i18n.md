@@ -233,32 +233,34 @@ Will produce "You are here for 47 sec. already!".
 
 #### Plurals
 
-Different languages have different ways to inflect plurals. Some rules are very complex so it's very handy that this
-functionality is provided without the need to specify inflection rule. Instead it only requires your input of inflected
-words in certain situations.
+Different languages have different ways to inflect plurals. Yii provides a convenient way for translating messages in
+different plural forms that works well even for very complex rules. Instead of dealing with the inflection rules directly
+it is sufficient to provide the translation of inflected words in certain situations only.
 
 ```php
-echo \Yii::t('app', 'There {n, plural, =0{are no cats} =1{is one cat} other{are # cats}}!', ['n' => 0]);
+echo \Yii::t('app', 'There {n, plural, =0{are no cats} =1{is one cat} other{are # cats}}!', ['n' => $n]);
 ```
 
-Will give us "There are no cats!".
+Will give us
 
-In the plural rule arguments above `=0` means exactly zero, `=1` stands for exactly one `other` is for any other number.
-`#` is replaced with the `n` argument value. It's not that simple for languages other than English. Here's an example
+- "There are no cats!" for `$n = 0`,
+- "There is one cat!" for `$n = 1`,
+- and "There are 42 cats!" for `$n = 42`.
+
+In the plural rule arguments above `=0` means exactly zero, `=1` stands for exactly one, and `other` is for any other number.
+`#` is replaced with the value of `n`. It's not that simple for languages other than English. Here's an example
 for Russian:
 
 ```
 Здесь {n, plural, =0{котов нет} =1{есть один кот} one{# кот} few{# кота} many{# котов} other{# кота}}!
 ```
 
-In the above it worth mentioning that `=1` matches exactly `n = 1` while `one` matches `21` or `101`.
+In the above it's worth mentioning that `=1` matches exactly `n = 1` while `one` matches `21` or `101`.
 
-Note that if you are using a placeholder twice and one time it's used as `plural` another one should be used as `number` else
-you'll get "Inconsistent types declared for an argument: U_ARGUMENT_TYPE_MISMATCH" error:
-
-```
-Total {count, number} {count, plural, one{item} other{items}}.
-```
+Note, that you can not use the Russian example in `Yii::t()` directly if your
+[[yii\base\Application::$sourceLanguage|source language]] isn't set to `ru_RU`. This however is not recommended, instead such
+strings should go into message files or message database (in case DB source is used). Yii uses plural rules of the
+translated language strings and is falling back to plural rules of source language if translation isn't available.
 
 To learn which inflection forms you should specify for your language you can referrer to the
 [rules reference at unicode.org](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
@@ -513,7 +515,7 @@ in all environments and verify that the version of the ICU library compiled with
 
 To find out which version of ICU is used by PHP you can run the following script, which will give you the PHP and ICU version used.
 
-```
+```php
 <?php
 echo "PHP: " . PHP_VERSION . "\n";
 echo "ICU: " . INTL_ICU_VERSION . "\n";
