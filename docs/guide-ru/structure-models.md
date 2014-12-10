@@ -1,24 +1,24 @@
-Models
+Модели
 ======
 
-Models are part of the [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) architecture.
-They are objects representing business data, rules and logic.
+Модели — один из компонентов [MVC-архитектуры](http://ru.wikipedia.org/wiki/Model-View-Controller).
+Это объекты, представляющие бизнес-данные, правила и логику.
 
-You can create model classes by extending [[yii\base\Model]] or its child classes. The base class
-[[yii\base\Model]] supports many useful features:
+Создать модель можно путём расширения класса [[yii\base\Model]] или его дочерних классов. Базовый класс
+[[yii\base\Model]] поддерживает множество полезных возможностей:
 
-* [Attributes](#attributes): represent the business data and can be accessed like normal object properties
-  or array elements;
-* [Attribute labels](#attribute-labels): specify the display labels for attributes;
-* [Massive assignment](#massive-assignment): supports populating multiple attributes in a single step;
-* [Validation rules](#validation-rules): ensures input data based on the declared validation rules;
-* [Data Exporting](#data-exporting): allows model data to be exported in terms of arrays with customizable formats.
+* [Атрибуты](#attributes): представляют бизнес-данные и могут использоваться как обычные свойства объекта
+  или элементы-массивы;
+* [Надписи атрибутов](#attribute-labels): определяют отображаемые надписи атрибутов;
+* [Массовое присваивание](#massive-assignment): поддержка одновременного заполнения множества атрибутов;
+* [Правила валидации](#validation-rules): проверка входных данных с помощью объявленных правил валидации;
+* [Экспорт данных](#data-exporting): экспорт данных модели в виде массивов с настраиваемыми форматами.
 
-The `Model` class is also the base class for more advanced models, such as [Active Record](db-active-record.md).
-Please refer to the relevant documentation for more details about these advanced models.
+Класс `Model` является базовым классом для более продвинутых моделей, таких как [Active Record](db-active-record.md).
+Обратитесь к соответствующей документации для более подробной информации о таких продвинутых моделях.
 
-> Info: You are not required to base your model classes on [[yii\base\Model]]. However, because there are many Yii
-  components built to support [[yii\base\Model]], it is usually the preferable base class for a model.
+> Информация: Необязательно наследовать ваши классы моделей от [[yii\base\Model]]. Тем не менее, так как множество 
+  компонентов Yii сделаны с учётом поддержки [[yii\base\Model]], обычно этот класс является предпочтительным как базовый класс модели.
 
 
 ## Attributes <a name="attributes"></a>
