@@ -21,33 +21,30 @@
   компонентов Yii сделаны с учётом поддержки [[yii\base\Model]], обычно этот класс является предпочтительным как базовый класс модели.
 
 
-## Attributes <a name="attributes"></a>
+## Атрибуты <a name="attributes"></a>
 
-Models represent business data in terms of *attributes*. Each attribute is like a publicly accessible property
-of a model. The method [[yii\base\Model::attributes()]] specifies what attributes a model class has.
+Модели представляют бизнес-данные в виде *атрибутов*. Каждый атрибут — это общедоступное свойство модели. Метод [[yii\base\Model::attributes()]] определяет то, какие атрибуты есть у класса модели.
 
-You can access an attribute like accessing a normal object property:
+Работа с атрибутами не отличается от обращения к обычным свойствам объектов:
 
 ```php
 $model = new \app\models\ContactForm;
 
-// "name" is an attribute of ContactForm
+// "name" является атрибутом ContactForm
 $model->name = 'example';
 echo $model->name;
 ```
 
-You can also access attributes like accessing array elements, thanks to the support for
-[ArrayAccess](http://php.net/manual/en/class.arrayaccess.php) and [ArrayIterator](http://php.net/manual/en/class.arrayiterator.php)
-by [[yii\base\Model]]:
+Благодаря тому, что класс [[yii\base\Model]] реализует интерфейсы [ArrayAccess](http://php.net/manual/en/class.arrayaccess.php) и [ArrayIterator](http://php.net/manual/en/class.arrayiterator.php), к атрибутам можно обращаться и как к элементам массива:
 
 ```php
 $model = new \app\models\ContactForm;
 
-// accessing attributes like array elements
+// обращение к атрибутам как к элементам массива
 $model['name'] = 'example';
 echo $model['name'];
 
-// iterate attributes
+// проход по атрибутам
 foreach ($model as $name => $value) {
     echo "$name: $value\n";
 }
