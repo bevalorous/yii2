@@ -77,28 +77,27 @@ class ContactForm extends Model
 в качестве имен атрибутов названия столбцов соответствующей таблицы базы данных. Обратите внимание, что может также потребоваться переопределение магических методов, таких как `__get()` и `__set()`, чтобы к атрибутам можно было обращаться как к обычным свойствам объекта.
 
 
-### Attribute Labels <a name="attribute-labels"></a>
+### Метки атрибутов <a name="attribute-labels"></a>
 
-When displaying values or getting input for attributes, you often need to display some labels associated
-with attributes. For example, given an attribute named `firstName`, you may want to display a label `First Name`
-which is more user-friendly when displayed to end users in places such as form inputs and error messages.
+При отображении значений атрибутов или получении входных данных для них часто необходимо показывать какие-то метки, связанные с атрибутами. Например, для атрибута с именем `firstName` желательно отображать метку `Имя`,
+что дружелюбнее для пользователей, работающими с формами ввода или читающими сообщения об ошибках.
 
-You can get the label of an attribute by calling [[yii\base\Model::getAttributeLabel()]]. For example,
+Чтобы получить метку атрибута, достаточно вызова метода [[yii\base\Model::getAttributeLabel()]]. Например:
 
 ```php
 $model = new \app\models\ContactForm;
 
-// displays "Name"
+// выводит "Name"
 echo $model->getAttributeLabel('name');
 ```
 
-By default, attribute labels are automatically generated from attribute names. The generation is done by
-the method [[yii\base\Model::generateAttributeLabel()]]. It will turn camel-case variable names into
-multiple words with the first letter in each word in upper case. For example, `username` becomes `Username`,
-and `firstName` becomes `First Name`.
+По умолчанию, метки атрибутов генерируются автоматически на основе имени атрибутов. Генерация выполняется
+методом [[yii\base\Model::generateAttributeLabel()]]. Он переводит имя переменной из camel-case в несколько слов, где
+каждое слово начинается с заглавной буквы. Например, `username` превращается в `Username`,
+а `firstName` превращается в `First Name`.
 
-If you do not want to use automatically generated labels, you may override [[yii\base\Model::attributeLabels()]]
-to explicitly declare attribute labels. For example,
+Если вы не хотите использовать автоматически сгенерированные метки, можете переопределить метод [[yii\base\Model::attributeLabels()]],
+чтобы явно указать метки атрибутов. Например:
 
 ```php
 namespace app\models;
@@ -115,17 +114,17 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => 'Your name',
-            'email' => 'Your email address',
-            'subject' => 'Subject',
-            'body' => 'Content',
+            'name' => 'Ваше имя',
+            'email' => 'Ваш адрес email',
+            'subject' => 'Тема',
+            'body' => 'Текст',
         ];
     }
 }
 ```
 
-For applications supporting multiple languages, you may want to translate attribute labels. This can be done
-in the [[yii\base\Model::attributeLabels()|attributeLabels()]] method as well, like the following:
+Для приложений, поддерживающий несколько языков, может понадобиться перевод меток атрибутов. Это также может быть сделано 
+в методе [[yii\base\Model::attributeLabels()|attributeLabels()]] следующим образом:
 
 ```php
 public function attributeLabels()
@@ -139,11 +138,11 @@ public function attributeLabels()
 }
 ```
 
-You may even conditionally define attribute labels. For example, based on the [scenario](#scenarios) the model
-is being used in, you may return different labels for the same attribute.
+Можно даже определять метки атрибутов по условию. Например, основываясь на  [сценарии](#scenarios), в котором используется модель,
+можно возвращать различные метки для одного и того же атрибута.
 
-> Info: Strictly speaking, attribute labels are part of [views](structure-views.md). But declaring labels
-  in models is often very convenient and can result in very clean and reusable code.
+> Информация: Строго говоря, метки атрибутов являются частью [представлений](structure-views.md). Но определение меток в моделях
+  часто очень удобно и даёт очень чистый код, пригодный для повторного использования.
 
 
 ## Scenarios <a name="scenarios"></a>
