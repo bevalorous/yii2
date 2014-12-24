@@ -51,11 +51,11 @@ foreach ($model as $name => $value) {
 ```
 
 
-### Defining Attributes <a name="defining-attributes"></a>
+### Определение атрибутов <a name="defining-attributes"></a>
 
-By default, if your model class extends directly from [[yii\base\Model]], all its *non-static public* member
-variables are attributes. For example, the `ContactForm` model class below has four attributes: `name`, `email`,
-`subject` and `body`. The `ContactForm` model is used to represent the input data received from an HTML form.
+По умолчанию, если ваш класс модели наследуется напрямую от [[yii\base\Model]], все его *не статические публичные* свойства
+являются атрибутами. Например, у вышеупомянутого класса модели `ContactForm` есть четыре атрибута: `name`, `email`,
+`subject` и `body`. Модель `ContactForm` используется для представления входных данных, получаемых из HTML-формы.
 
 ```php
 namespace app\models;
@@ -72,11 +72,9 @@ class ContactForm extends Model
 ```
 
 
-You may override [[yii\base\Model::attributes()]] to define attributes in a different way. The method should
-return the names of the attributes in a model. For example, [[yii\db\ActiveRecord]] does so by returning
-the column names of the associated database table as its attribute names. Note that you may also need to
-override the magic methods such as `__get()`, `__set()` so that the attributes can be accessed like
-normal object properties.
+Вы можете переопределить метод [[yii\base\Model::attributes()]], чтобы обозначить атрибуты по-другому. Метод должен возвращать
+имена атрибутов модели. Например, в классе [[yii\db\ActiveRecord]] этот метод возвращает
+в качестве имен атрибутов названия столбцов соответствующей таблицы базы данных. Обратите внимание, что может также потребоваться переопределение магических методов, таких как `__get()` и `__set()`, чтобы к атрибутам можно было обращаться как к обычным свойствам объекта.
 
 
 ### Attribute Labels <a name="attribute-labels"></a>
